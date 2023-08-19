@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mNotificationReceiver);
+        GlobalThreadPool.getInstance().shutdownNow(); // __jm__ this might force quit working threads
     }
 
     private void setupScheduleButton() {
@@ -61,11 +62,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerNotificationReceiver() {
+        LockscreenNotificationManager manager = new LockscreenNotificationManager(this);
+        NotificationReceiver mNotificationReceiver = new NotificationReceiver(manager);
+
         IntentFilter screenActionsFilter = new IntentFilter();
         screenActionsFilter.addAction(Intent.ACTION_SCREEN_ON);
         screenActionsFilter.addAction(Intent.ACTION_SCREEN_OFF);
 
-        NotificationReceiver mNotificationReceiver = new NotificationReceiver();
         registerReceiver(mNotificationReceiver, screenActionsFilter);
     }
 }
