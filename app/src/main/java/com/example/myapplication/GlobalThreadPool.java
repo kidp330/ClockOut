@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,6 +10,7 @@ import java.util.concurrent.Future;
 public class GlobalThreadPool {
     private static ExecutorService mInstance;
     // TODO: look into making an annotation instead of checkInstance
+    @NonNull
     public static synchronized ExecutorService getInstance() {
         checkInstance();
         return mInstance;
